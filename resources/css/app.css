@@ -7,8 +7,98 @@
 @source "../**/*.vue";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* ========================= */
+/* Custom CSS kamu taruh di sini */
+/* ========================= */
 
+body {
+    background: #000000;
+}
+
+/* NAVBAR */
+.navbar {
+    width: 100%;
+    padding: 26px 0;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.navbar .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 25px; /* agar tidak mepet kiri */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo a {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #0d6efd;
+}
+
+/* Mobile */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        top: 65px;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 15px;
+        width: 180px;
+        display: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+/* Transparent awal */
+.navbar.transparent {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Navbar saat discroll */
+.navbar.scrolled {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
