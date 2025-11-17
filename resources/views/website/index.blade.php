@@ -8,7 +8,7 @@
     .hero-banner {
         max-width: 100%;
         height: 100vh;
-        background-image: url('/images/abcdr.jpg');
+        background-image: url('/images/dumy.png'); /* Ganti dengan path gambar Anda */
         background-size: cover;          /* Full tapi tetap rapi */
         background-position: center;     /* Bagian penting terjaga */
         background-repeat: no-repeat;

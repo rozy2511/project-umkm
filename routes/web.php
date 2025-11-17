@@ -5,7 +5,28 @@ use App\Http\Controllers\LandingpageController;
 use App\Http\Controllers\Website\ProductController;
 use App\Http\Controllers\Website\AboutController;
 use App\Http\Controllers\Website\ContactController;
+use App\Http\Controllers\Admin\ProductAdminController;
 
+Route::prefix('admin')->group(function () {
+
+    // List Produk
+    Route::get('/products', [ProductAdminController::class, 'index'])->name('admin.products.index');
+
+    // Create Produk
+    Route::get('/products/create', [ProductAdminController::class, 'create'])->name('admin.products.create');
+    Route::post('/products', [ProductAdminController::class, 'store'])->name('admin.products.store');
+
+    // Edit Produk
+    Route::get('/products/{id}/edit', [ProductAdminController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/products/{id}', [ProductAdminController::class, 'update'])->name('admin.products.update');
+
+    // Delete Produk
+    Route::delete('/products/{id}', [ProductAdminController::class, 'destroy'])->name('admin.products.destroy');
+});
+// Dashboard
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
 Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/tentang', [AboutController::class, 'index'])->name('about');

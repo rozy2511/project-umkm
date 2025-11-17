@@ -102,3 +102,36 @@ body {
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+/* Tombol utama (coklat gelap) */
+.btn-primary {
+    background-color: #7b3f00;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.btn-primary:hover {
+    background-color: #693500;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* Tombol outline */
+.btn-outline {
+    border: 2px solid #7b3f00;
+    color: #7b3f00;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+
+.btn-outline:hover {
+    background-color: #7b3f00;
+    color: #fff;
+}
