@@ -22,7 +22,7 @@ body {
 /* NAVBAR */
 .navbar {
     width: 100%;
-    padding: 26px 0;
+    padding: 18px 0;
     position: fixed;
     top: 0;
     z-index: 100;
@@ -59,7 +59,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: #0d6efd;
+    color: #7b3f00;
 }
 
 /* Mobile */

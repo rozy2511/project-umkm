@@ -3,8 +3,8 @@
 @section('content')
 <h2>Data Produk</h2>
 
-<a href="{{ route('admin.products.create') }}">+ Tambah Produk</a>
-
+<a href="{{ route('admin.products.create') }}">Tambah</a>
+@csrf
 <table border="1" cellpadding="8">
     <tr>
         <th>#</th>

@@ -1,21 +1,33 @@
 @extends('admin.layouts.main')
 
-<h2>Tambah Produk</h2>
+@section('content')
+<div class="p-6">
+    <h1 class="text-xl font-bold mb-5">Tambah Produk</h1>
 
-<form action="{{ route('admin.products.store') }}" method="POST">
+   <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
-    <label>Nama Produk</label>
-    <input type="text" name="name">
+        <div>
+            <label class="block font-medium">Nama Produk</label>
+            <input type="text" name="name" class="w-full border rounded p-2" required>
+        </div>
 
-    <label>Slug</label>
-    <input type="text" name="slug">
+        <div>
+            <label class="block font-medium">Harga</label>
+            <input type="number" name="price" class="w-full border rounded p-2" required>
+        </div>
 
-    <label>Harga</label>
-    <input type="number" name="price">
+        <div>
+            <label class="block font-medium">Deskripsi</label>
+            <textarea name="description" class="w-full border rounded p-2" rows="4" required></textarea>
+        </div>
 
-    <label>Deskripsi</label>
-    <textarea name="description"></textarea>
+        <div>
+            <label class="block font-medium">Thumbnail Produk</label>
+            <input type="file" name="thumbnail" class="w-full" required>
+        </div>
 
-    <button type="submit">Simpan</button>
-</form>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+    </form>
+</div>
+@endsection

@@ -9,9 +9,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'image',
+        'thumbnail',  // ← ini WAJIB sesuai controller
         'price',
-        'short_description',
         'description',
     ];
 }
