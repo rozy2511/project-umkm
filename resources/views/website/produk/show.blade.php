@@ -24,7 +24,7 @@
                 </p>
 
                 <p class="text-lg text-[#5a4633] mb-4">
-                    {{ $product['short_description'] }}
+                    {{ $product['description'] }}
                 </p>
 
                 <a href="https://wa.me/628123456789?text=Saya%20ingin%20pesan%20{{ urlencode($product['name']) }}"

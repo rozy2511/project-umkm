@@ -12,10 +12,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Ambil semua produk dari database
-        $products = Product::orderBy('created_at', 'DESC')->get();
+        // Ambil semua produk dari database dengan urutan TOP dulu
+        $products = Product::orderBy('is_top', 'DESC')  // Produk TOP di atas
+                          ->orderBy('created_at', 'DESC') // Kemudian yang terbaru
+                          ->get();
 
-        // kirim ke view
+        // kirim ke view - PAKAI PATH YANG BENAR
         return view('website.produk.index', compact('products'));
     }
 

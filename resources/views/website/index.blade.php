@@ -37,13 +37,4 @@
     </div>
 </div>
 
-<div class="section products py-20">
-    <div class="container">
-        <h2 class="text-3xl font-bold mb-6 text-center">Produk Unggulan</h2>
-
-        {{-- nanti diganti grid produk --}}
-        <p class="text-center">Sedang disiapkan...</p>
-    </div>
-</div>
-
 @endsection

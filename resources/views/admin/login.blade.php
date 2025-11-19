@@ -125,11 +125,11 @@
 
                     <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
 
-                    <a href="/admin-reset-password"
-                       class="btn btn-link w-100 text-center"
-                       style="text-decoration:none;">
-                        Reset Password
-                    </a>
+                    <a href="{{ route('admin.reset.request') }}"
+   class="btn btn-link w-100 text-center"
+   style="text-decoration:none;">
+    Reset Password
+</a>
 
                 </form>
 

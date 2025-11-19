@@ -26,7 +26,7 @@
       </div>
 
       <button class="btn btn-primary w-100" type="submit">Kirim OTP ke Email Ini</button>
-      <a href="{{ route('admin.login') }}" class="btn btn-link d-block text-center mt-2">Kembali ke Login</a>
+      <a href="{{ route('login') }}" class="btn btn-link d-block text-center mt-2">Kembali ke Login</a>
     </form>
   </div>
 </div>

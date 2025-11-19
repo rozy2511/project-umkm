@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>@yield('title', 'UMKM Shop')</title>
-
-    {{-- Vite CSS --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="/build/assets/app-CNa4NKUf.css">
+    <script src="/build/assets/app-Cjp3yYZ7.js"></script>
 </head>
 
 <body>

@@ -27,7 +27,8 @@ class ProductAdminController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'is_top' => 'nullable|boolean'
         ]);
 
         // Upload gambar - versi paling stabil
@@ -61,15 +62,98 @@ class ProductAdminController extends Controller
             $price = str_replace('.', '', $price);
         }
 
-        // CREATE dengan data lengkap
+        // CREATE dengan data lengkap + is_top
         Product::create([
             'name'        => $request->name,
             'slug'        => $slug,
             'price'       => $price,
             'description' => $request->description,
-            'thumbnail'   => $thumbnailPath
+            'thumbnail'   => $thumbnailPath,
+            'is_top'      => $request->has('is_top') // TAMBAH INI
         ]);
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan!');
+    }
+
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('website.admin.products.edit', compact('product'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'thumbnail' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'is_top' => 'nullable|boolean' // TAMBAH INI
+        ]);
+
+        // Upload gambar baru jika ada
+        if ($request->hasFile('thumbnail') && $request->file('thumbnail')->isValid()) {
+            // Hapus gambar lama
+            if ($product->thumbnail && Storage::disk('public')->exists($product->thumbnail)) {
+                Storage::disk('public')->delete($product->thumbnail);
+            }
+            
+            // Upload gambar baru
+            $thumbnailPath = $request->file('thumbnail')->store('products', 'public');
+            $product->thumbnail = $thumbnailPath;
+        }
+
+        // Update slug jika nama berubah
+        if ($product->name != $request->name) {
+            $slug = Str::slug($request->name);
+            
+            // Cek jika slug sudah ada (selain produk ini)
+            $originalSlug = $slug;
+            $counter = 1;
+            while (Product::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+            
+            $product->slug = $slug;
+        }
+
+        // Konversi harga
+        $price = $request->price;
+        if (is_string($price)) {
+            $price = str_replace('.', '', $price);
+        }
+
+        $product->name = $request->name;
+        $product->price = $price;
+        $product->description = $request->description;
+        $product->is_top = $request->has('is_top'); // TAMBAH INI
+        $product->save();
+
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            
+            // Hapus file thumbnail jika ada
+            if ($product->thumbnail && Storage::disk('public')->exists($product->thumbnail)) {
+                Storage::disk('public')->delete($product->thumbnail);
+            }
+            
+            $productName = $product->name;
+            $product->delete();
+
+            return redirect()->route('admin.products.index')
+                           ->with('success', "Produk '{$productName}' berhasil dihapus!");
+            
+        } catch (\Exception $e) {
+            return redirect()->route('admin.products.index')
+                           ->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
+        }
     }
 }
