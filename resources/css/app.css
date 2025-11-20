@@ -63,7 +63,6 @@ body {
     cursor: pointer;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .nav-links {
         position: absolute;
@@ -73,12 +72,19 @@ body {
         flex-direction: column;
         padding: 15px;
         width: 180px;
-        display: none;
+        
+        /* ANIMASI SMOOTH */
+        display: flex !important;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .nav-links.active {
-        display: flex;
+        transform: translateX(0);
+        opacity: 1;
     }
 
     .menu-toggle {
@@ -129,3 +135,4 @@ body {
     background-color: #7b3f00;
     color: #fff;
 }
+

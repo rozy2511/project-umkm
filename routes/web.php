@@ -14,8 +14,7 @@ Route::get('/', [LandingpageController::class, 'index'])->name('landing');
 Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/tentang', [AboutController::class, 'index'])->name('about');
-Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
-Route::post('/kontak', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 
 // Admin Auth Routes (bebas akses tanpa login)
 Route::get('/admin/reset-password', [AdminAuthController::class, 'showResetRequest'])->name('admin.reset.request');

@@ -1,4 +1,5 @@
 <?php
+// app/Http\Controllers\Website\ContactController.php
 
 namespace App\Http\Controllers\Website;
 
@@ -9,12 +10,12 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return view('website.products.contact');
+        return view('website.contact.index');
     }
 
     public function send(Request $request)
     {
-        // nanti implementasi kirim email atau redirect ke WA
-        return back()->with('success', 'Pesan terkirim (demo).');
+        // Langsung return success tanpa processing apapun
+        return back()->with('success', 'Pesan terkirim!');
     }
 }

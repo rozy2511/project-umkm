@@ -25,11 +25,35 @@
             Siapa Kami?
         </h2>
 
-        <p class="text-lg leading-relaxed text-[#5a4633] text-center">
-            Sebuah UMKM kuliner yang menyediakan aneka jajan pasar, minuman segar, dan pilihan nasi bungkus untuk memenuhi kebutuhan masyarakat sekitar dan karyawan kantor. 
-            Setiap produk dibuat dengan cita rasa tradisional, kualitas yang terjaga, serta harga yang tetap terjangkau. Beragam hidangan seperti tahu bakso, risol, apem, gethuk, dan berbagai menu lainnya dihadirkan 
-            setiap hari sebagai pilihan praktis untuk sarapan, camilan, maupun makan siang. UMKM ini terus berkembang bersama lingkungan sekitar dengan menghadirkan makanan yang hangat, segar, dan siap dinikmati kapan saja.
-        </p>
+        {{-- Desktop: Tetap paragraph panjang --}}
+        <div class="hidden md:block">
+            <p class="text-lg leading-relaxed text-[#5a4633] text-center">
+                Sebuah UMKM kuliner yang menyediakan aneka jajan pasar, minuman segar, dan pilihan nasi bungkus untuk memenuhi kebutuhan masyarakat sekitar dan karyawan kantor. 
+                Setiap produk dibuat dengan cita rasa tradisional, kualitas yang terjaga, serta harga yang tetap terjangkau. Beragam hidangan seperti tahu bakso, risol, apem, gethuk, dan berbagai menu lainnya dihadirkan 
+                setiap hari sebagai pilihan praktis untuk sarapan, camilan, maupun makan siang. UMKM ini terus berkembang bersama lingkungan sekitar dengan menghadirkan makanan yang hangat, segar, dan siap dinikmati kapan saja.
+            </p>
+        </div>
+
+        {{-- Mobile: Card Grid --}}
+        <div class="md:hidden grid gap-6">
+            <div class="bg-white rounded-xl p-6 shadow-md border border-[#e8d6c4] text-center">
+                <div class="text-3xl mb-3">🏪</div>
+                <h3 class="font-semibold text-[#7b3f00] mb-2">UMKM Kuliner</h3>
+                <p class="text-sm text-[#5a4633]">Menyediakan jajan pasar, minuman segar, dan nasi bungkus untuk kebutuhan sehari-hari</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-md border border-[#e8d6c4] text-center">
+                <div class="text-3xl mb-3">👨‍🍳</div>
+                <h3 class="font-semibold text-[#7b3f00] mb-2">Cita Rasa Tradisional</h3>
+                <p class="text-sm text-[#5a4633]">Setiap produk dibuat dengan resep rumahan dan kualitas terjamin</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-md border border-[#e8d6c4] text-center">
+                <div class="text-3xl mb-3">💰</div>
+                <h3 class="font-semibold text-[#7b3f00] mb-2">Harga Terjangkau</h3>
+                <p class="text-sm text-[#5a4633]">Tetap menjaga harga yang ramah di kantong pelanggan</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -115,7 +139,8 @@
     <div class="container mx-auto px-4 max-w-5xl">
         <h3 class="text-2xl font-semibold mb-6 text-[#7b3f00] text-center">Produk Unggulan</h3>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        {{-- Desktop: Grid 3 kolom --}}
+        <div class="hidden md:grid md:grid-cols-3 gap-6">
             <div class="bg-white rounded-xl shadow p-6 text-center">
                 <div class="w-28 h-28 mx-auto rounded-full overflow-hidden bg-[#e8d6c4] mb-4">
                     <img src="/images/unggulan.png" class="w-full h-full object-cover">
@@ -140,6 +165,33 @@
                 <p class="text-sm text-[#5a4633] mt-2">Kue kukus tradisional dengan rasa gula jawa yang kaya.</p>
             </div>
         </div>
+
+        {{-- Mobile: Carousel Style --}}
+        <div class="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x">
+            <div class="bg-white rounded-xl shadow p-6 text-center min-w-[280px] snap-center">
+                <div class="w-20 h-20 mx-auto rounded-full overflow-hidden bg-[#e8d6c4] mb-3">
+                    <img src="/images/unggulan.png" class="w-full h-full object-cover">
+                </div>
+                <h4 class="font-semibold text-[#7b3f00]">Donat Kentang</h4>
+                <p class="text-xs text-[#5a4633] mt-1">Tekstur lembut dan rasa autentik</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 text-center min-w-[280px] snap-center">
+                <div class="w-20 h-20 mx-auto rounded-full overflow-hidden bg-[#e8d6c4] mb-3">
+                    <img src="/images/unggulan.png" class="w-full h-full object-cover">
+                </div>
+                <h4 class="font-semibold text-[#7b3f00]">Risol Mayo Pedas</h4>
+                <p class="text-xs text-[#5a4633] mt-1">Favorit pelanggan dengan isian spesial</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 text-center min-w-[280px] snap-center">
+                <div class="w-20 h-20 mx-auto rounded-full overflow-hidden bg-[#e8d6c4] mb-3">
+                    <img src="/images/unggulan.png" class="w-full h-full object-cover">
+                </div>
+                <h4 class="font-semibold text-[#7b3f00]">Kukus Gula Jawa</h4>
+                <p class="text-xs text-[#5a4633] mt-1">Rasa gula jawa yang kaya dan tradisional</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -155,12 +207,12 @@
 
         <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center">
             <a href="/kontak" class="btn-primary">
-    Hubungi Kami
-</a>
+                Hubungi Kami
+            </a>
 
             <a href="https://wa.me/628123456789" target="_blank" class="btn-outline">
-    Pesan via WhatsApp
-</a>
+                Pesan via WhatsApp
+            </a>
         </div>
     </div>
 </section>

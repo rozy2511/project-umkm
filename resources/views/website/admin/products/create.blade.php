@@ -95,6 +95,19 @@
                             @enderror
                         </div>
 
+                        {{-- TOGGLE TOP PRODUCT --}}
+                       <div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+    <div class="flex items-center">
+        <input type="checkbox" name="is_top" id="is_top" value="1" 
+               {{ old('is_top', $product->is_top) ? 'checked' : '' }}
+               class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
+        <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
+             Jadikan Produk TOP 
+            <span class="text-amber-600 text-xs block">(Produk akan muncul di urutan atas dengan badge spesial)</span>
+        </label>
+    </div>
+</div>
+
                         <div class="d-flex gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Simpan Produk
@@ -103,17 +116,7 @@
                             <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
                                 Batal
                             </a>
-                        </div> &nbsp;
-                        {{-- TOGGLE TOP PRODUCT --}}
-<div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
-    <div class="flex items-center">
-        <input type="checkbox" name="is_top" id="is_top" value="1" 
-               class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
-        <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
-            &nbsp; Jadikan Produk Best Seller
-        </label>
-    </div>
-</div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -199,6 +202,21 @@
 .input-group-text {
     background-color: #f8f9fa;
     border-color: #ced4da;
+}
+.bg-amber-50 {
+    background-color: #fffbeb;
+}
+.border-amber-200 {
+    border-color: #fcd34d;
+}
+.text-amber-800 {
+    color: #92400e;
+}
+.w-4 {
+    width: 1rem;
+}
+.h-4 {
+    height: 1rem;
 }
 </style>
 

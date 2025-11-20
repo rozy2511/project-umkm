@@ -11,8 +11,18 @@
             <li><a href="/kontak">Kontak</a></li>
         </ul>
 
-        <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-toggle">
             ☰
         </div>
     </div>
 </nav>
+
+<script>
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.menu-toggle')) {
+        document.querySelector('.nav-links').classList.toggle('active');
+        console.log('Menu di-toggle!');
+    }
+});
+</script>

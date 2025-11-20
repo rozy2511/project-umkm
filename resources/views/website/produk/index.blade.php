@@ -7,8 +7,8 @@
 <section class="py-16 bg-[#fdf7f1]">
     <div class="container mx-auto px-4">
 
-        <h2 class="text-3xl font-semibold text-center text-[#7b3f00] mb-10">
-            Pilihan Jajanan & Minuman
+        <h2 class="text-3xl font-bold text-center text-[#7b3f00] mb-10">
+            Snack Yang Kami Tawarkan
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

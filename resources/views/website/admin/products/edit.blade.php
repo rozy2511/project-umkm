@@ -67,7 +67,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                           id="price" name="price" value="{{ old('price', $product->price) }}" 
+                                           id="price" name="price" value="{{ old('price') }}" 
                                            placeholder="0" min="0" required>
                                 </div>
                                 @error('price')
@@ -137,7 +137,7 @@
                {{ old('is_top', $product->is_top) ? 'checked' : '' }}
                class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
         <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
-            🏆 Jadikan Produk TOP 
+            Jadikan Produk TOP 
             <span class="text-amber-600 text-xs block">(Produk akan muncul di urutan atas dengan badge spesial)</span>
         </label>
     </div>
