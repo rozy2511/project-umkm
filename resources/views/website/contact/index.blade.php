@@ -158,7 +158,7 @@
         
         <div class="space-y-3">
             <div class="flex items-start">
-                <div class="flex-shrink-0 w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
+                <div class=" w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
                     <span class="text-xs font-bold">✓</span>
                 </div>
                 <p class="ml-3 text-white/90 leading-relaxed">
@@ -167,7 +167,7 @@
             </div>
             
             <div class="flex items-start">
-                <div class="flex-shrink-0 w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
+                <div class=" w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
                     <span class="text-xs font-bold">✓</span>
                 </div>
                 <p class="ml-3 text-white/90 leading-relaxed">
