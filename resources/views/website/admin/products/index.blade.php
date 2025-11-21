@@ -67,7 +67,7 @@
             <div class="d-flex gap-2">
                 <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Cari produk..." style="width: 200px;">
                 <button class="btn btn-sm btn-outline-secondary" onclick="clearSearch()">
-                    <i class="fas fa-sync-alt"></i>
+                    <i class="fas fa-sync-alt">Hapus</i>
                 </button>
             </div>
         </div>
@@ -202,6 +202,155 @@
 }
 .toast.hide {
     animation: slideOutRight 0.3s ease-in;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start !important;
+    }
+    
+    .card-header.py-3.d-flex {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start !important;
+    }
+    
+    .card-header .d-flex.gap-2 {
+        width: 100%;
+    }
+    
+    #searchInput {
+        width: 100% !important;
+    }
+    
+    .table-responsive {
+        border: 1px solid #e3e6f0;
+        border-radius: 0.35rem;
+        overflow-x: auto;
+    }
+    
+    /* Table styling untuk mobile */
+    #productsTable {
+        min-width: 600px; /* Biarkan scroll horizontal di mobile */
+    }
+    
+    #productsTable th,
+    #productsTable td {
+        white-space: nowrap;
+        padding: 12px 8px;
+    }
+    
+    /* Aksi buttons tetap compact */
+    .d-flex.flex-column.gap-2 {
+        gap: 8px !important;
+        min-width: 120px;
+    }
+    
+    .btn-sm {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .btn-sm span {
+        display: inline-block;
+    }
+    
+    /* Product info lebih compact */
+    .product-icon {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    
+    .font-weight-bold.text-dark {
+        font-size: 0.9rem;
+    }
+    
+    .text-muted {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .h3.mb-0 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    /* Toast lebih kecil di mobile */
+    .toast {
+        min-width: 280px !important;
+        margin-right: 10px;
+    }
+    
+    .toast-header,
+    .toast-body {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container-fluid {
+        padding: 5px;
+    }
+    
+    #productsTable {
+        min-width: 500px;
+        font-size: 0.85rem;
+    }
+    
+    .btn-sm {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.7rem;
+    }
+    
+    .btn-sm i {
+        margin-right: 3px;
+    }
+}
+
+/* Pastikan desktop layout tetap sama */
+@media (min-width: 769px) {
+    .table-responsive {
+        overflow-x: visible; /* Hilangkan scroll horizontal di desktop */
+    }
+    
+    #productsTable {
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    #productsTable th:nth-child(1) { width: 5%; }      /* # */
+    #productsTable th:nth-child(2) { width: 30%; }     /* Nama Produk */
+    #productsTable th:nth-child(3) { width: 15%; }     /* Harga */
+    #productsTable th:nth-child(4) { width: 20%; }     /* Slug */
+    #productsTable th:nth-child(5) { width: 20%; }     /* Aksi */
+}
+
+/* Improve hover effects */
+@media (hover: hover) {
+    .btn-sm:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    tr:hover {
+        background-color: #f8f9fa !important;
+    }
 }
 
 @keyframes slideInRight {

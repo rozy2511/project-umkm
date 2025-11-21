@@ -99,7 +99,7 @@
                        <div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
     <div class="flex items-center">
         <input type="checkbox" name="is_top" id="is_top" value="1" 
-               {{ old('is_top', $product->is_top) ? 'checked' : '' }}
+               {{ old('is_top') ? 'checked' : '' }}
                class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
         <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
              Jadikan Produk TOP 
