@@ -8,7 +8,7 @@
     .hero-banner {
         width: 100%;
         height: 100vh;
-        background-image: url('/images/dumy.png');
+        background-image: url('/images/9.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -25,6 +25,7 @@
     .hero-content {
         position: relative;
         z-index: 10;
+        
     }
 
     /* RESPONSIVE FIXES */
@@ -78,10 +79,10 @@
         <h1 class="text-5xl font-bold drop-shadow-lg mb-4">Selamat Datang di UMKM Kami</h1>
         <p class="text-xl drop-shadow-md mb-6">Produk berkualitas dari tangan lokal</p>
 
-        <a href="#lokasi"
+        <a href="/produk"
            class="btn-solid-lg inline-block bg-[#7b3f00] text-white px-6 py-3 rounded-lg font-semibold
                   hover:bg-[#633200] transition shadow-lg">
-            Lihat Lokasi
+            Lihat Produk
         </a>
     </div>
 </div>

@@ -6,7 +6,7 @@
 
 {{-- Hero Section --}}
 <div class="relative bg-cover bg-center h-[55vh] flex items-center justify-center text-white"
-     style="background-image: url('/images/dumy.png');">
+     style="background-image: url('/images/uu2.jpg');">
 
     <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
 
