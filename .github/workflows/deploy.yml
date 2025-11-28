@@ -10,12 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout kode dari GitHub
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Pull kode terbaru di server (via SSH)
-    - name: Deploy to cPanel via SSH
+    - name: Test SSH Connection
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.CPANEL_HOST }}
@@ -23,18 +21,6 @@ jobs:
         key: ${{ secrets.CPANEL_SSH_KEY }}
         port: 22
         script: |
-          cd public_html/project-umkm
-          git pull origin master
-
-          # Step 3: Composer install
-          composer install --no-dev --optimize-autoloader
-
-          # Step 4: Build frontend
-          npm install
-          npm run build
-
-          # Step 5: Laravel cache & route
-          php artisan config:clear
-          php artisan route:clear
-          php artisan config:cache
-          php artisan route:cache
+          echo "CONNECTED SUCCESS"
+          whoami
+          pwd
