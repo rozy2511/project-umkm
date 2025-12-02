@@ -126,6 +126,64 @@
                             </div>
                         </div>
 
+                        <!-- Gallery Images -->
+                        <div class="mb-3">
+                            <label class="form-label">Foto Produk (Gallery)</label>
+                            
+                            <!-- Current Gallery -->
+                            @if($product->galleries && $product->galleries->count() > 0)
+                            <div class="mb-3">
+                                <label class="form-label text-muted">Gallery Saat Ini</label>
+                                <div class="row g-2">
+                                    @foreach($product->galleries as $gallery)
+                                    <div class="col-md-3 col-6">
+                                        <div class="border rounded p-2 position-relative">
+                                            <img src="{{ asset('storage/' . $gallery->image_path) }}" 
+                                                 class="img-fluid rounded mb-1"
+                                                 style="height: 100px; width: 100%; object-fit: cover;">
+                                            <div class="text-center">
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-danger btn-remove-gallery"
+                                                        data-id="{{ $gallery->id }}">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @else
+                            <div class="alert alert-info mb-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Belum ada foto gallery untuk produk ini.
+                            </div>
+                            @endif
+
+                            <!-- New Gallery Upload -->
+                            <div>
+                                <label for="gallery" class="form-label">Tambah Foto Gallery <small class="text-muted">(Opsional)</small></label>
+                                <input type="file" 
+                                       class="form-control @error('gallery.*') is-invalid @enderror" 
+                                       id="gallery" 
+                                       name="gallery[]" 
+                                       accept="image/*"
+                                       multiple>
+                                <div class="form-text">
+                                    Maksimal 7 foto total. Format: JPEG, PNG, JPG. Maksimal 2MB per foto.
+                                </div>
+                                
+                                <!-- Preview New Gallery -->
+                                <div id="gallery-preview" class="row mt-3 g-2 d-none">
+                                    <!-- Preview akan muncul di sini -->
+                                </div>
+                            </div>
+                            
+                            @error('gallery.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         {{-- TOGGLE TOP PRODUCT --}}
                         <div class="mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
                             <div class="form-check">
@@ -307,34 +365,114 @@ document.addEventListener('DOMContentLoaded', function() {
     const productForm = document.getElementById('productForm');
 
     // Format tampilan harga saat input
-    priceDisplay.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/[^\d]/g, '');
-        
-        if (value) {
-            // Update input tersembunyi dengan angka murni
-            priceActual.value = parseInt(value) || 0;
+    if (priceDisplay) {
+        priceDisplay.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d]/g, '');
             
-            // Format tampilan dengan titik pemisah ribuan
-            e.target.value = parseInt(value).toLocaleString('id-ID');
-        } else {
-            priceActual.value = '';
-            e.target.value = '';
-        }
-    });
+            if (value) {
+                // Update input tersembunyi dengan angka murni
+                priceActual.value = parseInt(value) || 0;
+                
+                // Format tampilan dengan titik pemisah ribuan
+                e.target.value = parseInt(value).toLocaleString('id-ID');
+            } else {
+                priceActual.value = '';
+                e.target.value = '';
+            }
+        });
 
-    // Format harga saat halaman dimuat
-    if (priceDisplay.value) {
-        let value = priceDisplay.value.replace(/[^\d]/g, '');
-        if (value) {
-            priceDisplay.value = parseInt(value).toLocaleString('id-ID');
+        // Format harga saat halaman dimuat
+        if (priceDisplay.value) {
+            let value = priceDisplay.value.replace(/[^\d]/g, '');
+            if (value) {
+                priceDisplay.value = parseInt(value).toLocaleString('id-ID');
+            }
         }
     }
 
     // Format harga sebelum submit form
-    productForm.addEventListener('submit', function(e) {
-        // Pastikan nilai yang dikirim adalah angka murni
-        let value = priceDisplay.value.replace(/[^\d]/g, '');
-        priceActual.value = value || 0;
+    if (productForm) {
+        productForm.addEventListener('submit', function(e) {
+            // Pastikan nilai yang dikirim adalah angka murni
+            if (priceDisplay) {
+                let value = priceDisplay.value.replace(/[^\d]/g, '');
+                priceActual.value = value || 0;
+            }
+        });
+    }
+
+    // Gallery Functions - FIXED VERSION
+    // Preview gallery images sebelum upload
+    const galleryInput = document.getElementById('gallery');
+    if (galleryInput) {
+        galleryInput.addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('gallery-preview');
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+                previewContainer.classList.remove('d-none');
+                
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            const col = document.createElement('div');
+                            col.className = 'col-md-3 col-6 mb-2';
+                            
+                            col.innerHTML = `
+                                <div class="border rounded p-1">
+                                    <img src="${event.target.result}" 
+                                         class="img-fluid rounded"
+                                         style="height: 80px; width: 100%; object-fit: cover;">
+                                    <div class="text-center small text-muted">
+                                        Foto ${i + 1}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            previewContainer.appendChild(col);
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+        });
+    }
+
+    // Remove gallery image (edit form)
+    const removeButtons = document.querySelectorAll('.btn-remove-gallery');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const galleryId = this.getAttribute('data-id');
+            const currentCount = document.querySelectorAll('.btn-remove-gallery').length;
+            
+            if (currentCount <= 1) {
+                alert('Minimal harus ada 1 foto gallery');
+                return;
+            }
+            
+            if (confirm('Hapus foto ini?')) {
+                this.closest('.col-md-3').remove();
+                
+                let deleteInput = document.getElementById('delete_galleries');
+                if (!deleteInput) {
+                    deleteInput = document.createElement('input');
+                    deleteInput.type = 'hidden';
+                    deleteInput.name = 'delete_galleries[]';
+                    deleteInput.id = 'delete_galleries';
+                    document.getElementById('productForm').appendChild(deleteInput);
+                }
+                
+                const currentValue = deleteInput.value ? deleteInput.value.split(',') : [];
+                if (!currentValue.includes(galleryId)) {
+                    currentValue.push(galleryId);
+                    deleteInput.value = currentValue.join(',');
+                }
+            }
+        });
     });
 
     // Fungsi bantu untuk menghapus format

@@ -94,6 +94,33 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <!-- Gallery Images -->
+<div class="mb-3">
+    <label for="gallery" class="form-label">Foto Produk (Gallery) <span class="text-danger">*</span></label>
+    <input type="file" 
+           class="form-control @error('gallery.*') is-invalid @enderror @error('gallery') is-invalid @enderror" 
+           id="gallery" 
+           name="gallery[]" 
+           accept="image/*"
+           multiple
+           required>
+    <div class="form-text">
+        <i class="fas fa-info-circle text-primary me-1"></i>
+        Minimal 2 foto, maksimal 7 foto. Format: JPEG, PNG, JPG. Maksimal 2MB per foto.
+    </div>
+    
+    <!-- Preview Gallery -->
+    <div id="gallery-preview" class="row mt-3 g-2 d-none">
+        <!-- Preview akan muncul di sini -->
+    </div>
+
+    @error('gallery')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+    @error('gallery.*')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
                         {{-- TOGGLE TOP PRODUCT --}}
                        <div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
