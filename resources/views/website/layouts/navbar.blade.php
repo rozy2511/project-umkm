@@ -1,7 +1,7 @@
 <nav class="navbar transparent" id="navbar">
     <div class="container">
         <div class="logo">
-            <a href="/">Jajan Pasar Tradisionalav</a>
+            <a href="/">Jajan Pasar Tradisional</a>
         </div>
 
         <ul class="nav-links">

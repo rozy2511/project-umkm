@@ -47,9 +47,12 @@
                     <h6 class="m-0 font-weight-bold text-primary">Informasi Produk</h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" id="productForm">
                         @csrf
                         @method('PUT')
+
+                        <!-- Input harga asli (hidden) -->
+                        <input type="hidden" name="price" id="price_actual" value="{{ old('price', $product->price) }}">
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -63,12 +66,13 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="price" class="form-label">Harga <span class="text-danger">*</span></label>
+                                <label for="price_display" class="form-label">Harga <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
-                                    <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                           id="price" name="price" value="{{ old('price') }}" 
-                                           placeholder="0" min="0" required>
+                                    <input type="text" class="form-control @error('price') is-invalid @enderror" 
+                                           id="price_display" 
+                                           value="{{ old('price', number_format($product->price, 0, ',', '.')) }}" 
+                                           placeholder="1.000" required>
                                 </div>
                                 @error('price')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -122,6 +126,19 @@
                             </div>
                         </div>
 
+                        {{-- TOGGLE TOP PRODUCT --}}
+                        <div class="mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                            <div class="form-check">
+                                <input type="checkbox" name="is_top" id="is_top" value="1" 
+                                       class="form-check-input" 
+                                       {{ old('is_top', $product->is_top) ? 'checked' : '' }}>
+                                <label for="is_top" class="form-check-label text-amber-800 fw-medium">
+                                    Jadikan Produk TOP 
+                                    <span class="d-block text-amber-600 small">(Produk akan muncul di urutan atas dengan badge spesial)</span>
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="d-flex gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Update Produk
@@ -130,18 +147,6 @@
                                 Batal
                             </a>
                         </div>
-                        {{-- TOGGLE TOP PRODUCT --}}
-<div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
-    <div class="flex items-center">
-        <input type="checkbox" name="is_top" id="is_top" value="1" 
-               {{ old('is_top', $product->is_top) ? 'checked' : '' }}
-               class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
-        <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
-            Jadikan Produk TOP 
-            <span class="text-amber-600 text-xs block">(Produk akan muncul di urutan atas dengan badge spesial)</span>
-        </label>
-    </div>
-</div>
                     </form>
                 </div>
             </div>
@@ -250,15 +255,12 @@
 </style>
 
 <script>
-// Initialize toast notifications
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize toast notifications
     const toasts = document.querySelectorAll('.toast');
     
     toasts.forEach(toast => {
-        // Show toast
         toast.classList.add('show');
-        
-        // Auto hide setelah 4 detik
         setTimeout(() => {
             toast.classList.add('hide');
             setTimeout(() => {
@@ -266,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 4000);
         
-        // Close button manual
         const closeBtn = toast.querySelector('.btn-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', function() {
@@ -278,10 +279,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Real-time Indonesia Clock dengan hari Bahasa Indonesia
+    // Real-time Indonesia Clock
     function updateIndonesiaTime() {
         const now = new Date();
-        
         const hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const bulanIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         
@@ -298,9 +298,49 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('currentDate').textContent = `${hari}, ${tanggal} ${bulan} ${tahun}`;
     }
 
-    // Update immediately and every second
     updateIndonesiaTime();
     setInterval(updateIndonesiaTime, 1000);
+
+    // Format Harga dengan titik pemisah ribuan
+    const priceDisplay = document.getElementById('price_display');
+    const priceActual = document.getElementById('price_actual');
+    const productForm = document.getElementById('productForm');
+
+    // Format tampilan harga saat input
+    priceDisplay.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^\d]/g, '');
+        
+        if (value) {
+            // Update input tersembunyi dengan angka murni
+            priceActual.value = parseInt(value) || 0;
+            
+            // Format tampilan dengan titik pemisah ribuan
+            e.target.value = parseInt(value).toLocaleString('id-ID');
+        } else {
+            priceActual.value = '';
+            e.target.value = '';
+        }
+    });
+
+    // Format harga saat halaman dimuat
+    if (priceDisplay.value) {
+        let value = priceDisplay.value.replace(/[^\d]/g, '');
+        if (value) {
+            priceDisplay.value = parseInt(value).toLocaleString('id-ID');
+        }
+    }
+
+    // Format harga sebelum submit form
+    productForm.addEventListener('submit', function(e) {
+        // Pastikan nilai yang dikirim adalah angka murni
+        let value = priceDisplay.value.replace(/[^\d]/g, '');
+        priceActual.value = value || 0;
+    });
+
+    // Fungsi bantu untuk menghapus format
+    function removeFormatting(value) {
+        return value.toString().replace(/[^\d]/g, '');
+    }
 });
 </script>
 @endsection
