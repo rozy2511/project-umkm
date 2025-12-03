@@ -12,7 +12,7 @@
 @endphp
 
 <!-- Hero Section dengan background abu-abu solid -->
-<div class="bg-gray-200 h-[35vh] flex items-center justify-center text-gray-800">
+<div class="bg-gray-500 h-[35vh] flex items-center justify-center text-gray-800">
     <h1 class="text-4xl font-bold">{{ $product->name }}</h1>
 </div>
 

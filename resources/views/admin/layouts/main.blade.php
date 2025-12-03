@@ -7,6 +7,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body {
             background: #f4f6f9;
@@ -36,10 +39,10 @@
             transition: margin-left 0.3s ease-in-out;
         }
 
-        /* ===== MOBILE MODE ===== */
+        /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%); /* sembunyikan */
+                transform: translateX(-100%);
                 z-index: 1000;
                 background: rgba(30, 41, 59, 0.1) !important;
                 backdrop-filter: blur(25px);
@@ -48,10 +51,9 @@
             }
 
             .sidebar.show-sidebar {
-                transform: translateX(0); /* muncul */
+                transform: translateX(0);
             }
 
-            /* Biarkan tulisan tetap solid dan jelas */
             .sidebar h4,
             .sidebar a {
                 background: transparent !important;
@@ -65,7 +67,6 @@
                 color: #1e293b !important;
             }
 
-            /* HAMBURGER MENU ANIMATED - POSISI DI KANAN ATAS SIDEBAR */
             .menu-toggle {
                 display: block;
                 background: transparent;
@@ -98,37 +99,25 @@
                 transition: all 0.3s ease-in-out;
             }
 
-            .hamburger span:nth-child(1) {
-                top: 0px;
-            }
+            .hamburger span:nth-child(1) { top: 0px; }
+            .hamburger span:nth-child(2) { top: 8px; }
+            .hamburger span:nth-child(3) { top: 16px; }
 
-            .hamburger span:nth-child(2) {
-                top: 8px;
-            }
-
-            .hamburger span:nth-child(3) {
-                top: 16px;
-            }
-
-            /* Hamburger Animation ketika sidebar aktif */
             .sidebar.show-sidebar ~ .menu-toggle .hamburger span:nth-child(1) {
                 top: 8px;
                 transform: rotate(135deg);
                 background: #333;
             }
-
             .sidebar.show-sidebar ~ .menu-toggle .hamburger span:nth-child(2) {
                 opacity: 0;
                 left: -20px;
             }
-
             .sidebar.show-sidebar ~ .menu-toggle .hamburger span:nth-child(3) {
                 top: 8px;
                 transform: rotate(-135deg);
                 background: #333;
             }
 
-            /* Floating effect untuk tombol */
             .menu-toggle {
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
@@ -146,14 +135,13 @@
             .menu-toggle:active {
                 transform: scale(0.95);
             }
-            
+
             .content {
                 margin-left: 0;
                 padding: 25px;
                 padding-top: 70px;
             }
 
-            /* Overlay ketika sidebar terbuka */
             .sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -170,11 +158,8 @@
             }
         }
 
-        /* desktop: sembunyikan menu button & normal sidebar */
         @media (min-width: 769px) {
-            .menu-toggle {
-                display: none;
-            }
+            .menu-toggle { display: none; }
             .sidebar {
                 background: #1e293b !important;
                 backdrop-filter: none !important;
@@ -193,12 +178,13 @@
         <h4 class="text-center mb-4">Admin UMKM</h4>
         <a href="{{ route('admin.dashboard') }}">📊 Dashboard</a>
         <a href="{{ route('admin.products.index') }}">🍞 Produk</a>
+        <a href="{{ route('admin.social.index') }}">🔗 Sosial Media</a>
     </div>
 
-    <!-- Overlay untuk mobile -->
+    <!-- Overlay mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- Tombol Menu (Mobile Only) - POSISI DI KANAN ATAS -->
+    <!-- Button menu mobile -->
     <button class="menu-toggle" onclick="toggleSidebar()">
         <div class="hamburger">
             <span></span>
@@ -220,14 +206,13 @@
             overlay.classList.toggle('active');
         }
 
-        // Close sidebar ketika klik di luar sidebar
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const menuToggle = document.querySelector('.menu-toggle');
-            
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(event.target) && 
+
+            if (window.innerWidth <= 768 &&
+                !sidebar.contains(event.target) &&
                 !menuToggle.contains(event.target) &&
                 sidebar.classList.contains('show-sidebar')) {
                 sidebar.classList.remove('show-sidebar');
@@ -235,18 +220,18 @@
             }
         });
 
-        // Close sidebar dengan ESC key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('sidebarOverlay');
-                if (sidebar.classList.contains('show-sidebar')) {
-                    sidebar.classList.remove('show-sidebar');
-                    overlay.classList.remove('active');
-                }
+                sidebar.classList.remove('show-sidebar');
+                overlay.classList.remove('active');
             }
         });
     </script>
+
+    {{-- PLACE FOR PAGE SCRIPTS (IMPORTANT) --}}
+    @yield('scripts')
 
 </body>
 </html>
