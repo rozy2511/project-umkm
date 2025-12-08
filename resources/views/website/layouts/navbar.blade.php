@@ -1,7 +1,22 @@
 <nav class="navbar transparent" id="navbar">
     <div class="container">
         <div class="logo">
-            <a href="/">Jajan Pasar Tradisional</a>
+            <a href="/" style="text-decoration: none;">
+                @if($logoType == 'text')
+                    <!-- LOGO TEKS -->
+                    <span style="color: {{ $logoColor }}; font-size: {{ $logoSize }}px; font-weight: bold; font-family: Arial, sans-serif;">
+                        {{ $logoText }}
+                    </span>
+                @elseif($logoImageUrl)
+                    <!-- LOGO GAMBAR -->
+                    <img src="{{ $logoImageUrl }}" alt="{{ $logoText }}" style="height: 40px; width: auto;">
+                @else
+                    <!-- DEFAULT FALLBACK -->
+                    <span style="font-size: {{ $logoSize }}px; font-weight: bold; color: {{ $logoColor }};">
+                        {{ $logoText }}
+                    </span>
+                @endif
+            </a>
         </div>
 
         <ul class="nav-links">

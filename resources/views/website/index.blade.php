@@ -1,34 +1,111 @@
 @extends('website.layouts.main')
-
+@if($needsAutoRefresh)
+<script>
+    console.log('🔄 Auto refresh diaktifkan');
+    
+    // Tampilkan notifikasi kecil
+    if(typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'info',
+            title: 'Memperbarui...',
+            text: 'Menyegarkan halaman untuk perubahan terbaru',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+    
+    // Auto refresh setelah 1.5 detik
+    setTimeout(function() {
+        console.log('🔃 Melakukan refresh...');
+        window.location.reload(true);
+    }, 1500);
+</script>
+@endif
 @section('title', 'Homepage')
 
 @section('content')
 
 <style>
+    /* ====== HERO SECTION STYLES ====== */
     .hero-banner {
         width: 100%;
         height: 100vh;
-        background-image: url('/images/9.jpg');
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Background dari database atau fallback default */
+    .hero-banner .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        position: relative;
+        z-index: 1;
+        transition: transform 0.5s ease;
     }
+
 
     .hero-banner::after {
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.3);
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+        z-index: 2;
     }
 
     .hero-content {
         position: relative;
         z-index: 10;
-        
+        text-align: center;
+    }
+        /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    /* RESPONSIVE FIXES */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Button styles */
+    .btn-hero {
+        background: linear-gradient(135deg, #7b3f00 0%, #633200 100%);
+        border: none;
+        padding: 12px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        animation: fadeIn 1s ease 0.6s both;
+        box-shadow: 0 4px 15px rgba(123, 63, 0, 0.3);
+    }
+
+    .btn-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(123, 63, 0, 0.4);
+        background: linear-gradient(135deg, #633200 0%, #522800 100%);
+    }
+
+    /* ====== RESPONSIVE STYLES ====== */
     @media (max-width: 1024px) {
         .hero-banner {
             height: 80vh;
@@ -44,7 +121,6 @@
     @media (max-width: 768px) {
         .hero-banner {
             height: 70vh;
-            background-attachment: scroll;
         }
         .hero-content h1 {
             font-size: 2.25rem;
@@ -52,8 +128,8 @@
         .hero-content p {
             font-size: 1rem;
         }
-        .btn-solid-lg {
-            padding: 0.75rem 1.5rem;
+        .btn-hero {
+            padding: 10px 24px;
             font-size: 0.875rem;
         }
     }
@@ -73,16 +149,31 @@
     }
 </style>
 
-{{-- HERO SECTION --}}
+{{-- ====== HERO SECTION (DYNAMIC FROM DATABASE) ====== --}}
 <div class="hero-banner flex items-center justify-center pt-20">
-    <div class="hero-content text-white text-center px-4">
-        <h1 class="text-5xl font-bold drop-shadow-lg mb-4">Selamat Datang di UMKM Kami</h1>
-        <p class="text-xl drop-shadow-md mb-6">Produk berkualitas dari tangan lokal</p>
+    {{-- Background Image dari Database atau Default --}}
+    <div class="hero-background" style="
+        @if($welcomeImage)
+            background-image: url('{{ asset('storage/' . $welcomeImage) }}');
+        @else
+            background-image: url('/images/9.jpg');
+        @endif
+    "></div>
 
-        <a href="/produk"
-           class="btn-solid-lg inline-block bg-[#7b3f00] text-white px-6 py-3 rounded-lg font-semibold
-                  hover:bg-[#633200] transition shadow-lg">
-            Lihat Produk
+    <div class="hero-content text-white text-center px-4">
+        {{-- Title dari Database --}}
+        <h1 class="welcome-title text-5xl font-bold mb-4">
+            {{ $welcomeTitle ?? 'Selamat Datang di UMKM Kami' }}
+        </h1>
+        
+        {{-- Subtitle dari Database --}}
+        <p class="welcome-subtitle text-xl mb-6">
+            {{ $welcomeSubtitle ?? 'Produk berkualitas dari tangan lokal' }}
+        </p>
+
+        {{-- CTA Button --}}
+        <a href="/produk" class="btn-hero inline-block text-white font-semibold">
+            <i class="fas fa-shopping-bag mr-2"></i> Lihat Produk
         </a>
     </div>
 </div>
@@ -96,41 +187,31 @@
 
         <div class="grid md:grid-cols-2 gap-10 items-start">
 
-            <!-- MAP -->
+            <!-- MAP - DYNAMIC DARI DATABASE -->
             <div class="shadow-lg rounded-lg overflow-hidden">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.8561165711926!2d110.38808367412085!3d-7.805052877483105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5771db9c4187%3A0xec37835a1078919f!2sGudeg%20Bu%20Susi!5e0!3m2!1sid!2sid!4v1763617893276!5m2!1sid!2sid" 
-                    width="100%" 
-                    height="350" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                {!! \App\Models\Setting::get('google_maps_embed', '') !!}
             </div>
 
-            <!-- JAM OPERASIONAL -->
+            <!-- JAM OPERASIONAL - DYNAMIC DARI DATABASE -->
             <div>
                 <h3 class="text-2xl font-semibold mb-4">Jam Operasional</h3>
-                <p class="text-gray-700 leading-relaxed mb-6">
-                    Kami buka setiap hari mulai pukul <strong>05.30 pagi</strong>. 
-                    Namun perlu diketahui bahwa <strong>stok makanan terbatas</strong> dan sering habis lebih cepat, 
-                    terutama karena banyak pelanggan dari area kantor terdekat dan juga anak sekolah yang membeli saat pagi hari.
-                </p>
+                
+                {{-- Deskripsi dengan format WA/markdown --}}
+                <div class="text-gray-700 leading-relaxed mb-6">
+    {!! \App\Helpers\TextFormatter::formatWaText(\App\Models\Setting::get('operational_description', '')) !!}
+</div>
 
+                {{-- Catatan dengan format WA/markdown --}}
                 <div class="bg-white p-5 rounded-lg shadow-md border">
                     <p class="font-semibold text-lg mb-1">Catatan:</p>
-                    <ul class="text-gray-700 space-y-2">
-                        <li>• Semakin siang, semakin sedikit makanan yang tersisa.</li>
-                        <li>• Jam tutup **tidak menentu**, biasanya mengikuti habisnya persediaan.</li>
-                        <li>• Disarankan datang lebih pagi agar kebagian menu lengkap.</li>
-                    </ul>
+                    <div class="text-gray-700 space-y-2">
+                        {!! \App\Helpers\TextFormatter::formatWaText(\App\Models\Setting::get('operational_notes', '')) !!}
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
-
 
 @endsection

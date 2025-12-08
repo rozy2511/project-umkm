@@ -219,7 +219,158 @@
 
 @section('styles')
 <style>
-/* seluruh style kamu tetap sama tidak diubah */
+/* Social Media Icon Colors */
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.social-icon.instagram { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
+.social-icon.facebook { background: linear-gradient(45deg, #1877F2, #0D8AF0); }
+.social-icon.twitter { background: linear-gradient(45deg, #1DA1F2, #0D8AF0); }
+.social-icon.tiktok { background: linear-gradient(45deg, #000000, #25F4EE, #FE2C55); }
+.social-icon.youtube { background: linear-gradient(45deg, #FF0000, #FF3333); }
+.social-icon.linkedin { background: linear-gradient(45deg, #0A66C2, #0D8AF0); }
+
+/* Preview Icons */
+.social-icon-preview {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+
+.social-icon-preview:hover {
+    transform: translateY(-2px);
+}
+
+.social-icon-preview.disabled {
+    background: #dee2e6;
+    color: #6c757d;
+}
+
+/* Form Styling */
+.input-group-text {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-size: 0.875rem;
+    border-color: #e9ecef;
+}
+
+.form-control-sm {
+    border-color: #e9ecef;
+}
+
+.form-control-sm:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+}
+
+/* Card Styling */
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+}
+
+.card-header {
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Switch Toggle */
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #28a745;
+    background-color: #28a745;
+}
+
+.status-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .social-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .social-icon-wrapper {
+        margin-bottom: 10px;
+    }
+    
+    .input-group-text {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .breadcrumb {
+        margin-top: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .btn + .btn {
+        margin-left: 0;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.social-item {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.social-item:nth-child(1) { animation-delay: 0.1s; }
+.social-item:nth-child(2) { animation-delay: 0.2s; }
+.social-item:nth-child(3) { animation-delay: 0.3s; }
+.social-item:nth-child(4) { animation-delay: 0.4s; }
+.social-item:nth-child(5) { animation-delay: 0.5s; }
+.social-item:nth-child(6) { animation-delay: 0.6s; }
+
+/* Hover Effects */
+.social-item:hover {
+    background-color: rgba(0, 123, 255, 0.02);
+}
+
+/* Focus States */
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+    border-color: #80bdff;
+}
 </style>
 @endsection
 

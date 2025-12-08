@@ -1,4 +1,4 @@
-@extends('website.layouts.main')
+@include('website.layouts.navbar')
 
 @section('title', 'Kontak')
 
