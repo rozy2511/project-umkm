@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Cache; // ✅ TAMBAH INI
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SettingController extends Controller
 {
@@ -319,30 +320,37 @@ class SettingController extends Controller
         return view('website.admin.setting.seo', compact('data'));
     }
 
-    public function updateSeo(Request $request)
-    {
-        $validated = $request->validate([
-            'site_title' => 'required|string|max:70',
-            'site_description' => 'required|string|max:160',
-            'site_keywords' => 'required|string|max:255',
-            'meta_author' => 'required|string|max:100',
-            'meta_robots' => 'required|string|in:index,follow,noindex,nofollow',
-        ]);
-
-        Setting::set('site_title', $validated['site_title'], 'seo');
-        Setting::set('site_description', $validated['site_description'], 'seo');
-        Setting::set('site_keywords', $validated['site_keywords'], 'seo');
-        Setting::set('meta_author', $validated['meta_author'], 'seo');
-        Setting::set('meta_robots', $validated['meta_robots'], 'seo');
-
-        // ✅ SET CACHE TIMESTAMP UNTUK AUTO UPDATE FRONTEND
-        Cache::put('frontend_settings_updated', time(), 3600);
-
-        return redirect()->route('admin.settings.seo')
-            ->with('success', 'Pengaturan SEO berhasil diperbarui!')
-            ->with('frontend_notification', 'seo_updated')
-            ->with('auto_refresh_frontend', true);
-    }
+    /**
+     * Update SEO Settings - FINAL VERSION WITH FIXED VALIDATION
+     */
+   public function updateSeo(Request $request)
+{
+    // === VALIDATION TANPA META_ROBOTS ===
+    $validated = $request->validate([
+        'site_title' => 'required|string|max:70',
+        'site_description' => 'required|string|max:160',
+        'site_keywords' => 'required|string|max:255',
+        'meta_author' => 'required|string|max:100',
+    ]);
+    
+    // Ambil meta_robots dari request, default ke index,follow
+    $metaRobots = $request->input('meta_robots', 'index,follow');
+    
+    // === SAVE DATA ===
+    Setting::set('site_title', $validated['site_title'], 'seo');
+    Setting::set('site_description', $validated['site_description'], 'seo');
+    Setting::set('site_keywords', $validated['site_keywords'], 'seo');
+    Setting::set('meta_author', $validated['meta_author'], 'seo');
+    Setting::set('meta_robots', $metaRobots, 'seo');
+    
+    // === CACHE ===
+    Cache::put('frontend_settings_updated', time(), 3600);
+    
+    return redirect()->route('admin.settings.seo')
+        ->with('success', 'Pengaturan SEO berhasil diperbarui!')
+        ->with('frontend_notification', 'seo_updated')
+        ->with('auto_refresh_frontend', true);
+}
     
     /**
      * Clear all frontend notifications
