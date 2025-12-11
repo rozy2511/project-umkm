@@ -243,7 +243,7 @@
                                 <!-- Phone -->
                                 <div class="mb-3 d-flex align-items-start">
                                     <div class="contact-icon bg-light rounded-circle p-2 me-3">
-                                        <i class="fas fa-phone text-primary"></i>
+                                        <i class="bi bi-telephone-inbound"></i>
                                     </div>
                                     <div>
                                         <h6 class="mb-1 small fw-bold">Telepon</h6>
@@ -256,7 +256,7 @@
                                 <!-- WhatsApp -->
                                 <div class="mb-3 d-flex align-items-start">
                                     <div class="contact-icon bg-light rounded-circle p-2 me-3">
-                                        <i class="fab fa-whatsapp text-success"></i>
+                                        <i class="bi bi-whatsapp"></i>
                                     </div>
                                     <div>
                                         <h6 class="mb-1 small fw-bold">WhatsApp</h6>
@@ -272,7 +272,7 @@
                                 <!-- Email -->
                                 <div class="mb-3 d-flex align-items-start">
                                     <div class="contact-icon bg-light rounded-circle p-2 me-3">
-                                        <i class="fas fa-envelope text-danger"></i>
+                                        <i class="bi bi-envelope-arrow-up"></i>
                                     </div>
                                     <div>
                                         <h6 class="mb-1 small fw-bold">Email</h6>
@@ -285,7 +285,7 @@
                                 <!-- Address -->
                                 <div class="mb-0 d-flex align-items-start">
                                     <div class="contact-icon bg-light rounded-circle p-2 me-3">
-                                        <i class="fas fa-map-marker-alt text-warning"></i>
+                                        <i class="bi bi-geo-alt"></i>
                                     </div>
                                     <div>
                                         <h6 class="mb-1 small fw-bold">Alamat</h6>
@@ -1031,4 +1031,6 @@ textarea.form-control {
     }
 }
 </style>
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
