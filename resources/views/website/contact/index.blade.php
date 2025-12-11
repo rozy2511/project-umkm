@@ -78,14 +78,29 @@
         color: white;
     }
 
+    .whatsapp-btn:hover {
+        background: #1da851;
+        transform: translateY(-2px);
+    }
+
     .call-btn {
         background: #007bff;
         color: white;
     }
 
+    .call-btn:hover {
+        background: #0056cc;
+        transform: translateY(-2px);
+    }
+
     .email-btn {
         background: #6c757d;
         color: white;
+    }
+
+    .email-btn:hover {
+        background: #545b62;
+        transform: translateY(-2px);
     }
 </style>
 
@@ -110,9 +125,7 @@
                         <div class="contact-details">
                             <h3>Lokasi Kami</h3>
                             <p>
-                                Jl. Prof. DR. Soepomo SH No.29<br>
-                                Muja Muju, Kec. Umbulharjo<br>
-                                Kota Yogyakarta 55165
+                                {!! nl2br(e($contactData['address'] ?? 'Jl. Prof. DR. Soepomo SH No.29, Muja Muju, Kec. Umbulharjo, Kota Yogyakarta 55165')) !!}
                             </p>
                         </div>
                     </div>
@@ -122,15 +135,15 @@
                         <span class="info-label">KONTAK</span>
                         <div class="contact-details">
                             <h3>Telepon & WhatsApp</h3>
-                            <p class="text-lg font-semibold mb-4">+62 812-3593-8380</p>
+                            <p class="text-lg font-semibold mb-4">{{ $contactData['phone'] ?? '+62 812-3593-8380' }}</p>
                             
                             <div class="action-buttons">
-                                <a href="https://wa.me/6281235938380?text=Halo,%20saya%20ingin%20bertanya%20tentang%20produk%20UMKM%20Anda" 
+                                <a href="{{ $whatsapp_link }}" 
                                    target="_blank" 
                                    class="whatsapp-btn">
                                     WhatsApp
                                 </a>
-                                <a href="tel:+6281235938380" 
+                                <a href="{{ $phone_link }}" 
                                    class="call-btn">
                                     Telepon
                                 </a>
@@ -143,49 +156,50 @@
                         <span class="info-label">EMAIL</span>
                         <div class="contact-details">
                             <h3>Email</h3>
-                            <p class="mb-4">muhammadfchrurrozyrozy@gmail.com</p>
-                            <a href="mailto:muhammadfchrurrozyrozy@gmail.com" 
+                            <p class="mb-4">{{ $contactData['email'] ?? 'info@umkmanda.com' }}</p>
+                            <a href="mailto:{{ $contactData['email'] ?? 'info@umkmanda.com' }}" 
                                class="email-btn">
                                 Kirim Email
                             </a>
                         </div>
                     </div>
-                    {{-- Tambahkan di contact page, sebelum jam operasional --}}
-<div class="contact-method">
-    <span class="info-label">LAYANAN PESANAN KHUSUS</span>
-    <div class="contact-details">
-        <h3 class="text-lg font-bold mb-3">Pesan Snack Dus Custom</h3>
-        
-        <div class="space-y-3">
-            <div class="flex items-start">
-                <div class=" w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
-                    <span class="text-xs font-bold">✓</span>
-                </div>
-                <p class="ml-3 text-white/90 leading-relaxed">
-                    Menerima pesanan <span class="font-semibold">partai besar & kecil</span> dengan harga kompetitif
-                </p>
-            </div>
-            
-            <div class="flex items-start">
-                <div class=" w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
-                    <span class="text-xs font-bold">✓</span>
-                </div>
-                <p class="ml-3 text-white/90 leading-relaxed">
-                    <span class="font-semibold">Snack dus custom</span> - bisa campur berbagai varian atau fokus satu jenis favorit
-                </p>
-            </div>
-            
-            <div class="flex items-start">
-                <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
-                    <span class="text-xs font-bold">✓</span>
-                </div>
-                <p class="ml-3 text-white/90 leading-relaxed">
-                    Cocok untuuk <span class="font-semibold">acara arisan, kumpulan keluarga, meeting kantor, atau acara formal lainnya </span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+
+                    <!-- Layanan Pesanan Khusus -->
+                    <div class="contact-method">
+                        <span class="info-label">LAYANAN PESANAN KHUSUS</span>
+                        <div class="contact-details">
+                            <h3 class="text-lg font-bold mb-3">Pesan Snack Dus Custom</h3>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
+                                        <span class="text-xs font-bold">✓</span>
+                                    </div>
+                                    <p class="ml-3 text-white/90 leading-relaxed">
+                                        Menerima pesanan <span class="font-semibold">partai besar & kecil</span> dengan harga kompetitif
+                                    </p>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
+                                        <span class="text-xs font-bold">✓</span>
+                                    </div>
+                                    <p class="ml-3 text-white/90 leading-relaxed">
+                                        <span class="font-semibold">Snack dus custom</span> - bisa campur berbagai varian atau fokus satu jenis favorit
+                                    </p>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
+                                        <span class="text-xs font-bold">✓</span>
+                                    </div>
+                                    <p class="ml-3 text-white/90 leading-relaxed">
+                                        Cocok untuk <span class="font-semibold">acara arisan, kumpulan keluarga, meeting kantor, atau acara formal lainnya</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Jam Operasional -->
                     <div class="contact-method">
@@ -202,6 +216,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+                    @if(auth()->check())
+                    @endif
+                </p>
             </div>
         </div>
     </div>

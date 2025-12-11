@@ -305,6 +305,48 @@ class SettingController extends Controller
     }
 
     /**
+     * Contact Settings
+     */
+    public function contact()
+    {
+        $data = [
+            'contact_phone_admin' => Setting::get('contact_phone_admin', '+62 812-3456-7890'),
+            'contact_whatsapp_admin' => Setting::get('contact_whatsapp_admin', '+62 812-3456-7890'),
+            'contact_whatsapp_message' => Setting::get('contact_whatsapp_message', 'Halo ada yang bisa dibantu?'),
+            'contact_email_admin' => Setting::get('company_email', 'info@umkmanda.com'),
+            'contact_address' => Setting::get('company_address', 'Jl. Prof. DR. Soepomo Sh No.29, Muja Muju'),
+        ];
+        
+        return view('website.admin.setting.contact', compact('data'));
+    }
+
+    public function updateContact(Request $request)
+    {
+        $validated = $request->validate([
+            'contact_phone_admin' => 'required|string|max:20',
+            'contact_whatsapp_admin' => 'required|string|max:20',
+            'contact_whatsapp_message' => 'required|string|max:200',
+            'contact_email_admin' => 'required|email|max:100',
+            'contact_address' => 'required|string|max:500',
+        ]);
+        
+        // Update contact data
+        Setting::set('contact_phone_admin', $validated['contact_phone_admin'], 'contact');
+        Setting::set('contact_whatsapp_admin', $validated['contact_whatsapp_admin'], 'contact');
+        Setting::set('contact_whatsapp_message', $validated['contact_whatsapp_message'], 'contact');
+        Setting::set('company_email', $validated['contact_email_admin'], 'location'); // Update existing company_email
+        Setting::set('company_address', $validated['contact_address'], 'location'); // Update existing company_address
+        
+        // ✅ SET CACHE TIMESTAMP UNTUK AUTO UPDATE FRONTEND
+        Cache::put('frontend_settings_updated', time(), 3600);
+        
+        return redirect()->route('admin.settings.contact')
+            ->with('success', 'Pengaturan kontak berhasil diperbarui!')
+            ->with('frontend_notification', 'contact_updated')
+            ->with('auto_refresh_frontend', true);
+    }
+
+    /**
      * SEO Settings
      */
     public function seo()
@@ -323,34 +365,34 @@ class SettingController extends Controller
     /**
      * Update SEO Settings - FINAL VERSION WITH FIXED VALIDATION
      */
-   public function updateSeo(Request $request)
-{
-    // === VALIDATION TANPA META_ROBOTS ===
-    $validated = $request->validate([
-        'site_title' => 'required|string|max:70',
-        'site_description' => 'required|string|max:160',
-        'site_keywords' => 'required|string|max:255',
-        'meta_author' => 'required|string|max:100',
-    ]);
-    
-    // Ambil meta_robots dari request, default ke index,follow
-    $metaRobots = $request->input('meta_robots', 'index,follow');
-    
-    // === SAVE DATA ===
-    Setting::set('site_title', $validated['site_title'], 'seo');
-    Setting::set('site_description', $validated['site_description'], 'seo');
-    Setting::set('site_keywords', $validated['site_keywords'], 'seo');
-    Setting::set('meta_author', $validated['meta_author'], 'seo');
-    Setting::set('meta_robots', $metaRobots, 'seo');
-    
-    // === CACHE ===
-    Cache::put('frontend_settings_updated', time(), 3600);
-    
-    return redirect()->route('admin.settings.seo')
-        ->with('success', 'Pengaturan SEO berhasil diperbarui!')
-        ->with('frontend_notification', 'seo_updated')
-        ->with('auto_refresh_frontend', true);
-}
+    public function updateSeo(Request $request)
+    {
+        // === VALIDATION TANPA META_ROBOTS ===
+        $validated = $request->validate([
+            'site_title' => 'required|string|max:70',
+            'site_description' => 'required|string|max:160',
+            'site_keywords' => 'required|string|max:255',
+            'meta_author' => 'required|string|max:100',
+        ]);
+        
+        // Ambil meta_robots dari request, default ke index,follow
+        $metaRobots = $request->input('meta_robots', 'index,follow');
+        
+        // === SAVE DATA ===
+        Setting::set('site_title', $validated['site_title'], 'seo');
+        Setting::set('site_description', $validated['site_description'], 'seo');
+        Setting::set('site_keywords', $validated['site_keywords'], 'seo');
+        Setting::set('meta_author', $validated['meta_author'], 'seo');
+        Setting::set('meta_robots', $metaRobots, 'seo');
+        
+        // === CACHE ===
+        Cache::put('frontend_settings_updated', time(), 3600);
+        
+        return redirect()->route('admin.settings.seo')
+            ->with('success', 'Pengaturan SEO berhasil diperbarui!')
+            ->with('frontend_notification', 'seo_updated')
+            ->with('auto_refresh_frontend', true);
+    }
     
     /**
      * Clear all frontend notifications

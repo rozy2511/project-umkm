@@ -130,6 +130,10 @@
                 <i class="bi bi-hand-thumbs-up"></i> Welcome Message
             </a>
 
+            <a href="{{ route('admin.settings.contact') }}">
+                <i class="bi bi-telephone"></i> Contact Information
+            </a>
+            
             <a href="{{ route('admin.settings.seo') }}">
                 <i class="bi bi-search"></i> SEO & Title Website
             </a>

@@ -83,6 +83,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/welcome', [SettingController::class, 'welcome'])->name('admin.settings.welcome');
         Route::post('/welcome', [SettingController::class, 'updateWelcome'])->name('admin.settings.welcome.update');
 
+        // Contact Settings
+        Route::get('/contact', [SettingController::class, 'contact'])->name('admin.settings.contact');
+        Route::post('/contact', [SettingController::class, 'updateContact'])->name('admin.settings.contact.update');
+
         // SEO
         Route::get('/seo', [SettingController::class, 'seo'])->name('admin.settings.seo');
         Route::post('/seo', [SettingController::class, 'updateSeo'])->name('admin.settings.seo.update');
