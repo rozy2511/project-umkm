@@ -48,7 +48,7 @@
     @endif
     <meta name="robots" content="{{ $metaRobots }}">
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DwuGTnU7.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-D9JFO2Og.css') }}">
 
     <script src="{{ asset('build/assets/app-CbrbhIeo.js') }}" defer></script>
 

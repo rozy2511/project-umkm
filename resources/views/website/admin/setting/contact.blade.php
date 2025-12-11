@@ -343,6 +343,10 @@
 </div>
 @endsection
 
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -551,87 +555,93 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// Form validation dengan notifikasi SweetAlert2 hanya di kanan atas
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent default untuk validasi client-side
-    
-    let isValid = true;
-    const errors = [];
-    
-    // Validate phone - harus 11 digit setelah +62
-    const phoneNumber = document.getElementById('contact_phone_number').value.replace(/\D/g, '');
-    
-    if (!phoneNumber.trim()) {
-        errors.push('Nomor telepon admin harus diisi');
-    } else if (phoneNumber.length < 11) {
-        errors.push('Nomor telepon harus 11 digit (contoh: 81234629870)');
-    }
-    
-    // Validate WhatsApp - harus 11 digit setelah +62
-    const whatsappNumber = document.getElementById('contact_whatsapp_number').value.replace(/\D/g, '');
-    
-    if (!whatsappNumber.trim()) {
-        errors.push('Nomor WhatsApp admin harus diisi');
-    } else if (whatsappNumber.length < 11) {
-        errors.push('Nomor WhatsApp harus 11 digit (contoh: 81234629870)');
-    }
-    
-    // Validate WhatsApp message
-    const whatsappMessageInput = document.getElementById('contact_whatsapp_message');
-    if (whatsappMessageInput && !whatsappMessageInput.value.trim()) {
-        errors.push('Kalimat pembuka WhatsApp harus diisi');
-    }
-    
-    // Validate email
-    const emailInput = document.getElementById('contact_email_admin');
-    if (emailInput && !emailInput.value.trim()) {
-        errors.push('Email admin harus diisi');
-    } else if (emailInput && !isValidEmail(emailInput.value)) {
-        errors.push('Format email tidak valid. Pastikan menggunakan format: nama@domain.com');
-    }
-    
-    // Validate address
-    const addressInput = document.getElementById('contact_address');
-    if (addressInput && !addressInput.value.trim()) {
-        errors.push('Alamat harus diisi');
-    }
-    
-    if (errors.length > 0) {
-        // Show error notification di kanan atas SAJA
-        let errorMessage = '';
-        if (errors.length === 1) {
-            errorMessage = errors[0];
-        } else {
-            errorMessage = errors.map((error, index) => `${index + 1}. ${error}`).join('<br>');
-        }
-        
-        showToast('error', 'Validasi Gagal', errorMessage, 5000);
-        
-        // TIDAK ADA modal lagi, hanya toast di kanan atas
-    } else {
-        // Show loading notification di kanan atas
-        Swal.fire({
-            title: 'Menyimpan...',
-            text: 'Mohon tunggu sebentar',
-            icon: 'info',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        }).then(() => {
-            // Submit form setelah loading selesai
-            this.submit();
-        });
-    }
-});
-
 // Check for success message from server (if redirected back with success)
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Contact settings page loaded');
+    
+    // Perbaikan: Form validation dipindahkan ke dalam DOMContentLoaded
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default untuk validasi client-side
+            
+            let isValid = true;
+            const errors = [];
+            
+            // Validate phone - harus 11 digit setelah +62
+            const phoneNumber = document.getElementById('contact_phone_number').value.replace(/\D/g, '');
+            
+            if (!phoneNumber.trim()) {
+                errors.push('Nomor telepon admin harus diisi');
+            } else if (phoneNumber.length < 11) {
+                errors.push('Nomor telepon harus 11 digit (contoh: 81234629870)');
+            }
+            
+            // Validate WhatsApp - harus 11 digit setelah +62
+            const whatsappNumber = document.getElementById('contact_whatsapp_number').value.replace(/\D/g, '');
+            
+            if (!whatsappNumber.trim()) {
+                errors.push('Nomor WhatsApp admin harus diisi');
+            } else if (whatsappNumber.length < 11) {
+                errors.push('Nomor WhatsApp harus 11 digit (contoh: 81234629870)');
+            }
+            
+            // Validate WhatsApp message
+            const whatsappMessageInput = document.getElementById('contact_whatsapp_message');
+            if (whatsappMessageInput && !whatsappMessageInput.value.trim()) {
+                errors.push('Kalimat pembuka WhatsApp harus diisi');
+            }
+            
+            // Validate email
+            const emailInput = document.getElementById('contact_email_admin');
+            if (emailInput && !emailInput.value.trim()) {
+                errors.push('Email admin harus diisi');
+            } else if (emailInput && !isValidEmail(emailInput.value)) {
+                errors.push('Format email tidak valid. Pastikan menggunakan format: nama@domain.com');
+            }
+            
+            // Validate address
+            const addressInput = document.getElementById('contact_address');
+            if (addressInput && !addressInput.value.trim()) {
+                errors.push('Alamat harus diisi');
+            }
+            
+            if (errors.length > 0) {
+                // Show error notification di kanan atas SAJA
+                let errorMessage = '';
+                if (errors.length === 1) {
+                    errorMessage = errors[0];
+                } else {
+                    errorMessage = errors.map((error, index) => `${index + 1}. ${error}`).join('<br>');
+                }
+                
+                showToast('error', 'Validasi Gagal', errorMessage, 5000);
+                
+                // TIDAK ADA modal lagi, hanya toast di kanan atas
+            } else {
+                // Show loading notification di kanan atas
+                Swal.fire({
+                    title: 'Menyimpan...',
+                    text: 'Mohon tunggu sebentar',
+                    icon: 'info',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                }).then(() => {
+                    // Submit form setelah loading selesai
+                    this.submit();
+                });
+            }
+        });
+    } else {
+        console.error('Form dengan ID "contactForm" tidak ditemukan');
+    }
     
     // Format phone numbers on load
     const phoneInput = document.getElementById('contact_phone_number');
@@ -1031,6 +1041,3 @@ textarea.form-control {
     }
 }
 </style>
-@section('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-@endsection
