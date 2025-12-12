@@ -497,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['para', ['ul', 'ol']],
-                ['insert', ['link']],
             ],
             placeholder: 'Deskripsikan produk Anda...',
             callbacks: {
