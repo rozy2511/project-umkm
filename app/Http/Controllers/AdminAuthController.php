@@ -28,13 +28,17 @@ public function sendResetOtp(Request $request)
     $email = $this->adminEmail;
     $key = 'send-otp|' . $request->ip(); // rate limiter key
 
-    // rate limit: 3 kali per 15 menit
+    // rate limit: 3 kali per 60 detik (1 menit) <-- DIUBAH
     if (RateLimiter::tooManyAttempts($key, 3)) {
         $seconds = RateLimiter::availableIn($key);
-        return back()->withErrors(['error' => "Terlalu banyak permintaan. Coba lagi dalam {$seconds} detik."]);
+        $minutes = ceil($seconds / 60);
+        
+        return back()->withErrors([
+            'error' => "Terlalu banyak permintaan. Coba lagi dalam {$minutes} menit."
+        ]);
     }
 
-    RateLimiter::hit($key, 900); // decay 15 menit
+    RateLimiter::hit($key, 60); // decay 60 detik (1 menit) <-- DIUBAH DARI 900 KE 60
 
     // generate OTP 6 digit
     $otp = random_int(100000, 999999);
