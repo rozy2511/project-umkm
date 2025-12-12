@@ -74,8 +74,9 @@
                     Rp {{ number_format($product->price, 0, ',', '.') }}
                 </p>
 
-                <div class="text-lg text-[#5a4633] mb-6">
-                    {!! nl2br(e($product->description)) !!}
+                <!-- DESKRIPSI DENGAN SUMMERNOTE HTML -->
+                <div class="text-lg text-[#5a4633] mb-6 product-description">
+                    {!! $product->description !!}
                 </div>
 
                 @if($product->is_top)
@@ -87,7 +88,7 @@
                 </div>
                 @endif
 
-                <a href="https://wa.me/628123456789?text=Saya%20ingin%20pesan%20{{ urlencode($product->name) }}"
+                <a href="https://wa.me/628123456789?text=Saya%20ingin%20pesan%20{{ urlencode($product->name) }}%20-%20Rp%20{{ number_format($product->price, 0, ',', '.') }}"
                    target="_blank"
                    class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#7b3f00] hover:bg-[#5a2e00] text-white font-semibold shadow transition duration-300">
                     <i class="fab fa-whatsapp"></i>
@@ -153,6 +154,99 @@
     .swiper-pagination-bullet-active {
         background-color: #7b3f00;
         opacity: 1;
+    }
+    
+    /* STYLING UNTUK HTML SUMMERNOTE */
+    .product-description {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.7;
+        color: #4a5568;
+    }
+    
+    .product-description h1,
+    .product-description h2,
+    .product-description h3,
+    .product-description h4 {
+        color: #7b3f00;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .product-description h1 { font-size: 1.75rem; }
+    .product-description h2 { font-size: 1.5rem; }
+    .product-description h3 { font-size: 1.25rem; }
+    .product-description h4 { font-size: 1.125rem; }
+    
+    .product-description p {
+        margin-bottom: 1rem;
+    }
+    
+    .product-description ul,
+    .product-description ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .product-description li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-description strong,
+    .product-description b {
+        font-weight: 600;
+        color: #5a4633;
+    }
+    
+    .product-description em,
+    .product-description i {
+        font-style: italic;
+    }
+    
+    .product-description u {
+        text-decoration: underline;
+    }
+    
+    .product-description a {
+        color: #7b3f00;
+        text-decoration: underline;
+    }
+    
+    .product-description a:hover {
+        color: #633200;
+    }
+    
+    .product-description img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    .product-description blockquote {
+        border-left: 4px solid #e8d6c4;
+        padding-left: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+        color: #666;
+    }
+    
+    .product-description table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+    }
+    
+    .product-description table th,
+    .product-description table td {
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem;
+        text-align: left;
+    }
+    
+    .product-description table th {
+        background-color: #f7fafc;
+        font-weight: 600;
     }
 </style>
 @endpush

@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Flash Messages - iPhone Style Popup -->
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
         @if(session('success'))
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
@@ -51,7 +50,6 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Input harga asli (hidden) -->
                         <input type="hidden" name="price" id="price_actual" value="{{ old('price', $product->price) }}">
 
                         <div class="row">
@@ -82,9 +80,8 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi Produk</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" 
-                                      id="description" name="description" rows="4" 
-                                      placeholder="Deskripsikan produk Anda...">{{ old('description', $product->description) }}</textarea>
+                            <textarea class="form-control summernote @error('description') is-invalid @enderror" 
+                                      id="description" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -93,7 +90,6 @@
                         <div class="mb-3">
                             <label class="form-label">Gambar Produk</label>
                             
-                            <!-- Current Image -->
                             <div class="mb-3">
                                 <label class="form-label text-muted">Thumbnail Saat Ini</label>
                                 <div class="border rounded p-3 text-center bg-light">
@@ -114,7 +110,6 @@
                                 </div>
                             </div>
 
-                            <!-- New Image Upload -->
                             <div>
                                 <label for="thumbnail" class="form-label">Ganti Thumbnail <small class="text-muted">(Opsional)</small></label>
                                 <input type="file" class="form-control @error('thumbnail') is-invalid @enderror" 
@@ -126,11 +121,9 @@
                             </div>
                         </div>
 
-                        <!-- Gallery Images -->
                         <div class="mb-3">
                             <label class="form-label">Foto Produk (Gallery)</label>
                             
-                            <!-- Current Gallery -->
                             @if($product->galleries && $product->galleries->count() > 0)
                             <div class="mb-3">
                                 <label class="form-label text-muted">Gallery Saat Ini</label>
@@ -160,7 +153,6 @@
                             </div>
                             @endif
 
-                            <!-- New Gallery Upload -->
                             <div>
                                 <label for="gallery" class="form-label">Tambah Foto Gallery <small class="text-muted">(Opsional)</small></label>
                                 <input type="file" 
@@ -173,9 +165,7 @@
                                     Maksimal 7 foto total. Format: JPEG, PNG, JPG. Maksimal 2MB per foto.
                                 </div>
                                 
-                                <!-- Preview New Gallery -->
                                 <div id="gallery-preview" class="row mt-3 g-2 d-none">
-                                    <!-- Preview akan muncul di sini -->
                                 </div>
                             </div>
                             
@@ -184,7 +174,6 @@
                             @enderror
                         </div>
 
-                        {{-- TOGGLE TOP PRODUCT --}}
                         <div class="mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
                             <div class="form-check">
                                 <input type="checkbox" name="is_top" id="is_top" value="1" 
@@ -192,7 +181,7 @@
                                        {{ old('is_top', $product->is_top) ? 'checked' : '' }}>
                                 <label for="is_top" class="form-check-label text-amber-800 fw-medium">
                                     Jadikan Produk TOP 
-                                    <span class="d-block text-amber-600 small">(Produk akan muncul di urutan atas dengan badge spesial)</span>
+                                    <span class="d-block text-amber-600 small">(Produk akan muncul di urutan atas)</span>
                                 </label>
                             </div>
                         </div>
@@ -210,7 +199,6 @@
             </div>
         </div>
 
-        <!-- Sidebar Info -->
         <div class="col-lg-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -310,11 +298,50 @@
     background-color: #f8f9fa;
     border-color: #ced4da;
 }
+.bg-amber-50 {
+    background-color: #fffbeb;
+}
+.border-amber-200 {
+    border-color: #fcd34d;
+}
+.text-amber-800 {
+    color: #92400e;
+}
+.note-editor.note-frame {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    margin-top: 5px;
+}
+.note-toolbar {
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 0.4rem !important;
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+    min-height: 40px !important;
+}
+.note-btn-group {
+    margin-right: 3px !important;
+}
+.note-btn {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+.note-editable {
+    min-height: 120px !important;
+    padding: 12px !important;
+    font-size: 0.95rem;
+}
+.note-statusbar {
+    height: 25px !important;
+}
+.note-placeholder {
+    padding: 12px !important;
+    font-size: 0.95rem;
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize toast notifications
     const toasts = document.querySelectorAll('.toast');
     
     toasts.forEach(toast => {
@@ -337,7 +364,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Real-time Indonesia Clock
     function updateIndonesiaTime() {
         const now = new Date();
         const hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -359,21 +385,16 @@ document.addEventListener('DOMContentLoaded', function() {
     updateIndonesiaTime();
     setInterval(updateIndonesiaTime, 1000);
 
-    // Format Harga dengan titik pemisah ribuan
     const priceDisplay = document.getElementById('price_display');
     const priceActual = document.getElementById('price_actual');
     const productForm = document.getElementById('productForm');
 
-    // Format tampilan harga saat input
     if (priceDisplay) {
         priceDisplay.addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^\d]/g, '');
             
             if (value) {
-                // Update input tersembunyi dengan angka murni
                 priceActual.value = parseInt(value) || 0;
-                
-                // Format tampilan dengan titik pemisah ribuan
                 e.target.value = parseInt(value).toLocaleString('id-ID');
             } else {
                 priceActual.value = '';
@@ -381,7 +402,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Format harga saat halaman dimuat
         if (priceDisplay.value) {
             let value = priceDisplay.value.replace(/[^\d]/g, '');
             if (value) {
@@ -390,10 +410,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Format harga sebelum submit form
     if (productForm) {
         productForm.addEventListener('submit', function(e) {
-            // Pastikan nilai yang dikirim adalah angka murni
             if (priceDisplay) {
                 let value = priceDisplay.value.replace(/[^\d]/g, '');
                 priceActual.value = value || 0;
@@ -401,8 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Gallery Functions - FIXED VERSION
-    // Preview gallery images sebelum upload
     const galleryInput = document.getElementById('gallery');
     if (galleryInput) {
         galleryInput.addEventListener('change', function(e) {
@@ -442,7 +458,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Remove gallery image (edit form)
     const removeButtons = document.querySelectorAll('.btn-remove-gallery');
     removeButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -475,9 +490,53 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Fungsi bantu untuk menghapus format
-    function removeFormatting(value) {
-        return value.toString().replace(/[^\d]/g, '');
+    if ($('.summernote').length > 0) {
+        $('.summernote').summernote({
+            height: 200,
+            lang: 'id-ID',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link']],
+            ],
+            placeholder: 'Deskripsikan produk Anda...',
+            callbacks: {
+                onImageUpload: function(files) {
+                    uploadSummernoteImage(files[0]);
+                }
+            }
+        });
+    }
+
+    function uploadSummernoteImage(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        fetch('/admin/upload-editor-image', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Upload gagal');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.url) {
+                $('.summernote').summernote('insertImage', data.url);
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            alert('Gagal mengupload gambar. Pastikan ukuran file maksimal 2MB.');
+        });
     }
 });
 </script>

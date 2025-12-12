@@ -1,28 +1,5 @@
 @extends('website.layouts.main')
-@if($needsAutoRefresh)
-<script>
-    console.log('🔄 Auto refresh diaktifkan');
-    
-    // Tampilkan notifikasi kecil
-    if(typeof Swal !== 'undefined') {
-        Swal.fire({
-            icon: 'info',
-            title: 'Memperbarui...',
-            text: 'Menyegarkan halaman untuk perubahan terbaru',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
-    
-    // Auto refresh setelah 1.5 detik
-    setTimeout(function() {
-        console.log('🔃 Melakukan refresh...');
-        window.location.reload(true);
-    }, 1500);
-</script>
-@endif
+
 @section('title', 'Homepage')
 
 @section('content')

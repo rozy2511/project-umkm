@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Flash Messages - iPhone Style Popup -->
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
         @if(session('success'))
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
@@ -77,12 +76,15 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi Produk <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" 
-                                      id="description" name="description" rows="4" 
-                                      placeholder="Deskripsikan produk Anda..." required>{{ old('description') }}</textarea>
+                            <textarea class="form-control summernote @error('description') is-invalid @enderror" 
+                                      id="description" name="description" rows="4">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <div class="form-text mt-2">
+                                <i class="fas fa-info-circle text-primary me-1"></i>
+                                Gunakan editor untuk membuat deskripsi yang menarik.
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -94,46 +96,43 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <!-- Gallery Images -->
-<div class="mb-3">
-    <label for="gallery" class="form-label">Foto Produk (Gallery) <span class="text-danger">*</span></label>
-    <input type="file" 
-           class="form-control @error('gallery.*') is-invalid @enderror @error('gallery') is-invalid @enderror" 
-           id="gallery" 
-           name="gallery[]" 
-           accept="image/*"
-           multiple
-           required>
-    <div class="form-text">
-        <i class="fas fa-info-circle text-primary me-1"></i>
-        Minimal 2 foto, maksimal 7 foto. Format: JPEG, PNG, JPG. Maksimal 2MB per foto.
-    </div>
-    
-    <!-- Preview Gallery -->
-    <div id="gallery-preview" class="row mt-3 g-2 d-none">
-        <!-- Preview akan muncul di sini -->
-    </div>
 
-    @error('gallery')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-    @error('gallery.*')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
+                        <div class="mb-3">
+                            <label for="gallery" class="form-label">Foto Produk (Gallery) <span class="text-danger">*</span></label>
+                            <input type="file" 
+                                   class="form-control @error('gallery.*') is-invalid @enderror @error('gallery') is-invalid @enderror" 
+                                   id="gallery" 
+                                   name="gallery[]" 
+                                   accept="image/*"
+                                   multiple
+                                   required>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle text-primary me-1"></i>
+                                Minimal 2 foto, maksimal 7 foto. Format: JPEG, PNG, JPG. Maksimal 2MB per foto.
+                            </div>
+                            
+                            <div id="gallery-preview" class="row mt-3 g-2 d-none">
+                            </div>
 
-                        {{-- TOGGLE TOP PRODUCT --}}
-                       <div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
-    <div class="flex items-center">
-        <input type="checkbox" name="is_top" id="is_top" value="1" 
-               {{ old('is_top') ? 'checked' : '' }}
-               class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
-        <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
-             Jadikan Produk TOP 
-            <span class="text-amber-600 text-xs block">(Produk akan muncul di urutan atas dengan badge spesial)</span>
-        </label>
-    </div>
-</div>
+                            @error('gallery')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            @error('gallery.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="is_top" id="is_top" value="1" 
+                                       {{ old('is_top') ? 'checked' : '' }}
+                                       class="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500 focus:ring-2">
+                                <label for="is_top" class="ml-3 text-sm font-medium text-amber-800">
+                                    Jadikan Produk TOP 
+                                    <span class="text-amber-600 text-xs block">(Produk akan muncul di urutan atas)</span>
+                                </label>
+                            </div>
+                        </div>
 
                         <div class="d-flex gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
@@ -149,7 +148,6 @@
             </div>
         </div>
 
-        <!-- Sidebar Info -->
         <div class="col-lg-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -207,6 +205,10 @@
                         </div>
                         <div class="mb-2">
                             <i class="fas fa-info-circle me-2 text-primary"></i>
+                            <strong>Deskripsi</strong> gunakan editor untuk format teks
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-info-circle me-2 text-primary"></i>
                             <strong>Gambar</strong> akan di-compress otomatis
                         </div>
                     </div>
@@ -245,18 +247,46 @@
 .h-4 {
     height: 1rem;
 }
+.note-editor.note-frame {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    margin-top: 5px;
+}
+.note-toolbar {
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 0.4rem !important;
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+    min-height: 40px !important;
+}
+.note-btn-group {
+    margin-right: 3px !important;
+}
+.note-btn {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+}
+.note-editable {
+    min-height: 120px !important;
+    padding: 12px !important;
+    font-size: 0.95rem;
+}
+.note-statusbar {
+    height: 25px !important;
+}
+.note-placeholder {
+    padding: 12px !important;
+    font-size: 0.95rem;
+}
 </style>
 
 <script>
-// Initialize toast notifications
 document.addEventListener('DOMContentLoaded', function() {
     const toasts = document.querySelectorAll('.toast');
     
     toasts.forEach(toast => {
-        // Show toast
         toast.classList.add('show');
         
-        // Auto hide setelah 4 detik
         setTimeout(() => {
             toast.classList.add('hide');
             setTimeout(() => {
@@ -264,7 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 4000);
         
-        // Close button manual
         const closeBtn = toast.querySelector('.btn-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', function() {
@@ -276,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Real-time Indonesia Clock dengan hari Bahasa Indonesia
     function updateIndonesiaTime() {
         const now = new Date();
         
@@ -292,17 +320,99 @@ document.addEventListener('DOMContentLoaded', function() {
         const menit = now.getMinutes().toString().padStart(2, '0');
         const detik = now.getSeconds().toString().padStart(2, '0');
         
-        // Update waktu server
         document.getElementById('currentTime').textContent = `${jam}:${menit}:${detik} WIB`;
         document.getElementById('currentDate').textContent = `${hari}, ${tanggal} ${bulan} ${tahun}`;
-        
-        // Update info waktu pembuatan
         document.getElementById('currentTimeInfo').textContent = `Sekarang - ${jam}:${menit} WIB`;
     }
 
-    // Update immediately and every second
     updateIndonesiaTime();
     setInterval(updateIndonesiaTime, 1000);
+
+    const galleryInput = document.getElementById('gallery');
+    if (galleryInput) {
+        galleryInput.addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('gallery-preview');
+            previewContainer.innerHTML = '';
+            previewContainer.classList.remove('d-none');
+            
+            const files = e.target.files;
+            if (files && files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3 col-6 mb-2';
+                        
+                        col.innerHTML = `
+                            <div class="border rounded p-1">
+                                <img src="${event.target.result}" 
+                                     class="img-fluid rounded"
+                                     style="height: 80px; width: 100%; object-fit: cover;">
+                                <div class="text-center small text-muted mt-1">
+                                    Foto ${i + 1}
+                                </div>
+                            </div>
+                        `;
+                        
+                        previewContainer.appendChild(col);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    }
+
+    if ($('.summernote').length > 0) {
+        $('.summernote').summernote({
+            height: 200,
+            lang: 'id-ID',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link']],
+            ],
+            placeholder: 'Deskripsikan produk Anda...',
+            callbacks: {
+                onImageUpload: function(files) {
+                    uploadSummernoteImage(files[0]);
+                }
+            }
+        });
+    }
+
+    function uploadSummernoteImage(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        fetch('/admin/upload-editor-image', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Upload gagal');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.url) {
+                $('.summernote').summernote('insertImage', data.url);
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            alert('Gagal mengupload gambar. Pastikan ukuran file maksimal 2MB.');
+        });
+    }
 });
 </script>
 @endsection
